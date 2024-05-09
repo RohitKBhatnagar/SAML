@@ -1,0 +1,563 @@
+<!--
+
+Licensed to Jenkins CI under one or more contributor license
+agreements.  See the NOTICE file distributed with this work
+for additional information regarding copyright ownership.
+Jenkins CI licenses this file to you under the Apache License,
+Version 2.0 (the "License"); you may not use this file except
+in compliance with the License.  You may obtain a copy of the
+License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>4.31</version>
+  </parent>
+
+  <artifactId>saml</artifactId>
+  <version>${revision}${changelist}</version>
+  <packaging>hpi</packaging>
+  <name>SAML Plugin</name>
+  <url>https://fusion.mastercard.int/stash/projects/JT/repos/plugins/browse/saml</url>
+
+  <scm>
+    <!-- connection>scm:git:git://fusion.mastercard.int/stash/scm/jt/plugins.git</connection -->
+    <connection>scm:git:fusion.mastercard.int/stash/scm/jt/plugins.git</connection>
+    <url>https://fusion.mastercard.int/stash/projects/JT/repos/plugins/browse/saml</url>
+    <tag>${scmTag}</tag>
+  </scm>
+
+  <properties>
+    <!--<revision>2.0.11</revision>
+    <changelist>-SNAPSHOT</changelist>-->
+    <revision>2.0.10</revision>
+    <changelist></changelist>
+    <jenkins.version>2.289</jenkins.version>
+    <java.level>8</java.level>
+    <!--<java.source>11</java.source>
+    <java.target>11</java.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>-->
+    <!--<minimumJavaVersion>11</minimumJavaVersion>-->
+    <jenkins-test-harness.version>1498.v53acb0fd4634</jenkins-test-harness.version>
+  </properties>
+
+  <licenses>
+    <license>
+      <name>Apache 2.0 License</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>e059704</id>
+      <name>Rohit K Bhatnagar</name>
+      <roles>
+        <role>Internal Maintainer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <!-- repositories>
+    <repository -->
+  <!--id>repo.jenkins-ci.org</id-->
+  <!-- url>https://repo.jenkins-ci.org/public/</url -->
+  <!--<id>archive-external-release</id>-->
+  <!--url>archive-external-release/jenkins/opensource/master/plugins/saml/internal/</url-->
+  <!--<url>https://artifacts.mastercard.int:443/artifactory/archive-external-release/jenkins/opensource/master/plugins/saml/internal/</url>
+</repository>
+</repositories>
+<pluginRepositories>
+<pluginRepository>-->
+  <!--id>repo.jenkins-ci.org</id>
+  <url>https://repo.jenkins-ci.org/public/</url-->
+  <!--<id>archive-external-release</id>
+  <url>https://artifacts.mastercard.int:443/artifactory/archive-external-release/jenkins/opensource/master/plugins/saml/internal/</url>
+</pluginRepository>
+</pluginRepositories>-->
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>apache-httpcomponents-client-4-api</artifactId>
+      <!--<version>4.5.13-1.0</version>-->
+    </dependency>
+    <dependency>
+      <groupId>org.pac4j</groupId>
+      <artifactId>pac4j-saml</artifactId>
+      <!-- versions 4.x.x require JDK 11 -->
+      <!--      <version>5.3.0</version>-->
+      <!--      <version>5.2.1</version>-->
+      <version>3.9.0</version>
+      <optional>false</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-beans</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-jdbc</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-orm</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-tx</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>jcl-over-slf4j</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk15on</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.dom4j</groupId>
+          <artifactId>dom4j</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-codec</groupId>
+          <artifactId>commons-codec</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>antlr</groupId>
+          <artifactId>antlr</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.hibernate.javax.persistence</groupId>
+          <artifactId>hibernate-jpa-2.1-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-entitymanager</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-commons-annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-collections</groupId>
+          <artifactId>commons-collections</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-codec</groupId>
+          <artifactId>commons-codec</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xalan</groupId>
+          <artifactId>xalan</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.activation</groupId>
+          <artifactId>jakarta.activation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>javax.annotation</groupId>
+          <artifactId>javax.annotation-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>mailer</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>bouncycastle-api</artifactId>
+      <version>2.25</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>java-hamcrest</artifactId>
+      <version>2.0.0.0</version>
+      <scope>test</scope>
+    </dependency -->
+    <!-- JCasC compatibility -->
+    <dependency>
+      <groupId>io.jenkins</groupId>
+      <artifactId>configuration-as-code</artifactId>
+      <version>1.54</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.jenkins.configuration-as-code</groupId>
+      <artifactId>test-harness</artifactId>
+      <version>1.54</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>joda-time</groupId>
+          <artifactId>joda-time</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.main</groupId>
+      <artifactId>jenkins-test-harness</artifactId>
+      <version>1648.ved2b9ab8b19e</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <version>1.16.2</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-compress</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>jcl-over-slf4j</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>net.time4j</groupId>
+      <artifactId>time4j-base</artifactId>
+      <version>5.8</version>
+    </dependency>
+    <!--<dependency>
+      <groupId>org.springframework.ldap</groupId>
+      <artifactId>spring-ldap-core</artifactId>
+      <version>2.3.4.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-ldap</artifactId>
+      <version>5.4.6</version>
+    </dependency>-->
+    <!--<dependency>
+      <groupId>org.springframework.ldap</groupId>
+      <artifactId>spring-ldap-core</artifactId>
+      <version>2.3.5.RELEASE</version>
+    </dependency>-->
+    <!--<dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-ldap</artifactId>-->
+    <!--<version>5.4.6</version>-->
+    <!--<version>5.6.1</version>-->
+    <!--</dependency>-->
+
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>ldap</artifactId>
+      <version>2.7</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-beans</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <artifactId>bom-2.289.x</artifactId>
+        <version>1008.vb9e22885c9cf</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.cryptacular</groupId>
+        <artifactId>cryptacular</artifactId>
+      </dependency>
+      <!-- TODO: remove when CVE-2019-12400 is resolved -->
+      <dependency>
+        <groupId>org.apache.santuario</groupId>
+        <artifactId>xmlsec</artifactId>
+        <version>2.3.0</version>
+      </dependency>
+
+      <!-- Following dependencies have been added to support LDAP features from within our SAML Plugin -->
+      <dependency> <!-- Repeat this from jenkins/core/pom.xml to avoid bundling Spring libraries already in core -->
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jcl</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-ldap</artifactId>
+        <!--<exclusions>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+          </exclusion>
+        </exclusions>-->
+      </dependency>
+      <!-- LDAP GeneralizedTime cannot be properly parsed by java.time -->
+      <dependency>
+        <groupId>net.time4j</groupId>
+        <artifactId>time4j-base</artifactId>
+        <version>5.9</version>
+      </dependency>
+      <dependency>
+        <groupId>net.time4j</groupId>
+        <artifactId>time4j-tzdata</artifactId>
+        <version>5.0-2021e</version>
+      </dependency>
+
+      <!--<dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-core</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+          </exclusion>
+          <exclusion> &lt;!&ndash; core provides something else &ndash;&gt;
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-core-annotations</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-core-api</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-core-avl</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-core-constants</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-core-jndi</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-interceptor-kerberos</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-jdbm-partition</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-kerberos-codec</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-ldif-partition</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-protocol-dhcp</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-protocol-dns</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-protocol-kerberos</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-protocol-ldap</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-protocol-ntp</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-protocol-shared</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-server-annotations</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-server-config</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-server-jndi</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-test-framework</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.directory.server</groupId>
+        <artifactId>apacheds-xdbm-partition</artifactId>
+        <version>${apacheds.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jsoup</groupId>
+        <artifactId>jsoup</artifactId>
+        <version>1.14.2</version>
+        <scope>test</scope>
+      </dependency>-->
+    </dependencies>
+  </dependencyManagement>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <arguments>-DskipTests</arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,11 @@
+/.idea/
+/target/
+*.iml
+*.iws
+*.ipr
+/work/
+/.project
+/.settings
+/.classpath
+/nbproject
+.DS_Store

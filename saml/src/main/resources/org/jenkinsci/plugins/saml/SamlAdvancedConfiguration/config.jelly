@@ -1,0 +1,57 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+         xmlns:f="/lib/form">
+    <f:entry title="Force Authentication" field="forceAuthn" help="/plugin/saml/help/forceAuthn.html">
+        <f:checkbox checked="true" />
+    </f:entry>
+    <f:entry title="Authentication Context" field="authnContextClassRef"
+             help="/plugin/saml/help/authnContextClassRef.html">
+        <f:textbox/>
+    </f:entry>
+    <f:entry title="SP Entity ID" field="spEntityId" help="/plugin/saml/help/spEntityId.html">
+        <f:textbox/>
+    </f:entry>
+    <f:entry title="NameIDPolicy Format" field="nameIdPolicyFormat" help="/plugin/saml/help/nameIdPolicyFormat.html">
+            <f:textbox/>
+        </f:entry>
+    <!-- Following added for supporting LDAP based user lookup -->
+    <f:entry title="Force IdP Assigned Groups Over Write" field="forceLDAPUser">
+        <f:checkbox checked="true"/>
+    </f:entry>
+    <f:entry field="server" title="${%Server}">
+        <f:textbox default="ldaps://ad.auth.mclocal.int"/>
+    </f:entry>
+    <f:entry field="rootDN" title="${%root DN}">
+        <f:textbox default="DC=corp,DC=mastercard,DC=org"/>
+    </f:entry>
+    <f:entry field="inhibitInferRootDN">
+        <f:checkbox title="${%Allow blank rootDN}"/>
+    </f:entry>
+    <f:entry field="userSearchBase" title="${%User search base}">
+        <f:textbox default="OU=MasterCard Users"/>
+    </f:entry>
+    <f:entry field="userSearch" title="${%User search filter}">
+        <f:textbox default="sAMAccountName={0}"/>
+    </f:entry>
+    <f:entry field="groupSearchBase" title="${%Group search base}">
+        <f:textbox default="OU=MasterCard Groups"/>
+    </f:entry>
+    <f:entry field="groupSearchFilter" title="${%Group search filter}">
+        <f:textbox default="(&amp;(objectCategory=group)(cn={0}))"/>
+    </f:entry>
+    <!--<f:entry field="groupMembershipStrategy" title="${%Group membership}">
+        <f:hetero-radio field="groupMembershipStrategy" descriptors="${descriptor.groupMembershipStrategies}"/>
+    </f:entry>-->
+    <f:entry field="managerDN" title="${%Manager DN}">
+        <f:textbox default="CN=cddsauth,OU=Service Accounts,OU=MasterCard Users,DC=corp,DC=mastercard,DC=org"/>
+    </f:entry>
+    <f:entry field="managerPasswordSecret" title="${%Manager Password}">
+        <f:password default="plqa231#"/>
+    </f:entry>
+    <f:entry field="displayNameAttributeName" title="${%Display Name LDAP attribute}">
+        <f:textbox default="displayName"/>
+    </f:entry>
+    <f:entry field="mailAddressAttributeName" title="${%Email Address LDAP attribute}">
+        <f:textbox default="mail"/>
+    </f:entry>
+</j:jelly>
